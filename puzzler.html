@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Word Weaver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+        }
+        #game-grid {
+            /* UPDATED: Fixed 12x12 grid for better mobile experience */
+            grid-template-columns: repeat(12, 1fr); 
+        }
+        .grid-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            /* UPDATED: Adjusted clamp for 12x12 grid */
+            font-size: clamp(0.9rem, 3.5vw, 1.4rem); 
+            font-weight: 700;
+            color: #d1d5db; /* Light gray text */
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            user-select: none;
+        }
+        .grid-cell:hover:not(.selected):not(.found) {
+            background-color: #2d2d2d;
+        }
+        .selected {
+            background-color: #4a4a4a;
+            color: white;
+            border-radius: 4px;
+        }
+        .found {
+            background-color: #34d399; /* Green for found words */
+            color: #1a1a1a;
+            border-radius: 4px;
+            pointer-events: none; /* Disable clicking on found cells */
+            animation: found-flash 0.5s;
+        }
+        .word-item-found {
+            text-decoration: line-through;
+            opacity: 0.5;
+            background-color: #374151; /* Darker gray for found list items */
+        }
+        @keyframes found-flash {
+            0% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <script>
+        // UPDATED: Reduced words to 12 per theme to fit the 12x12 grid better.
+        const GAME_WORDS = {
+            "Torah Names & Places": {
+                theme: "Find the key figures and places from the books of the Torah (Genesis, Exodus, Leviticus, Numbers, Deuteronomy).",
+                words: ["ADAM", "EVE", "NOAH", "ABRAHAM", "SARAH", "ISAAC", "JACOB", "MOSES", "EGYPT", "CANAAN", "SINAI", "REDSEA"]
+            },
+            "New Testament Books": {
+                theme: "Locate the names of key books found in the New Testament.",
+                words: ["MATTHEW", "MARK", "LUKE", "JOHN", "ACTS", "ROMANS", "TITUS", "JAMES", "JUDE", "HEBREWS", "GALATIANS", "EPHESIANS"]
+            },
+            "Prominent Women": {
+                theme: "Discover the names of influential women across the Bible.",
+                words: ["SARAH", "REBEKAH", "RACHEL", "LEAH", "MIRIAM", "DEBORAH", "RUTH", "ESTHER", "MARY", "MARTHA", "ABIGAIL", "HANNAH"]
+            }
+        };
+
+        // UPDATED: Grid size set to 12 for mobile optimization
+        const GRID_SIZE = 12; 
+        let grid = [];
+        let startCell = null;
+        let isDrawing = false;
+        let selectedCells = [];
+        let currentThemeKey = '';
+        let wordsToFind = [];
+        let foundWords = new Set();
+        let userId = 'anon_user'; 
+
+        // --- Utility Functions for Firebase/Auth (MUST BE INCLUDED) ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        // --- Game Setup and Initialization ---
+
+        function initGame(themeKey) {
+            currentThemeKey = themeKey;
+            wordsToFind = GAME_WORDS[themeKey].words.slice(); // Use a copy
+            foundWords = new Set();
+            grid = generateGrid(wordsToFind);
+            renderGame();
+        }
+
+        function generateGrid(words) {
+            let newGrid = Array(GRID_SIZE).fill(0).map(() => Array(GRID_SIZE).fill(null));
+            let placedWords = [];
+
+            // Sort words by length descending to place long words first
+            const sortedWords = words.sort((a, b) => b.length - a.length);
+
+            sortedWords.forEach(word => {
+                let placed = false;
+                let attempts = 0;
+                const maxAttempts = 50;
+
+                while (!placed && attempts < maxAttempts) {
+                    attempts++;
+                    const direction = Math.random() < 0.5 ? 'H' : 'V'; // Horizontal or Vertical
+                    const wordLength = word.length;
+
+                    let startX, startY;
+                    let dx, dy; // Direction vector
+
+                    if (direction === 'H') {
+                        // Horizontal: dx = 1, dy = 0
+                        dx = 1; dy = 0;
+                        startX = Math.floor(Math.random() * (GRID_SIZE - wordLength + 1));
+                        startY = Math.floor(Math.random() * GRID_SIZE);
+                    } else {
+                        // Vertical: dx = 0, dy = 1
+                        dx = 0; dy = 1;
+                        startX = Math.floor(Math.random() * GRID_SIZE);
+                        startY = Math.floor(Math.random() * (GRID_SIZE - wordLength + 1));
+                    }
+
+                    if (canPlaceWord(newGrid, word, startX, startY, dx, dy)) {
+                        placeWord(newGrid, word, startX, startY, dx, dy);
+                        placedWords.push(word);
+                        placed = true;
+                    }
+                }
+            });
+
+            fillEmptyCells(newGrid);
+            return newGrid;
+        }
+
+        function canPlaceWord(grid, word, startX, startY, dx, dy) {
+            for (let i = 0; i < word.length; i++) {
+                const x = startX + i * dx;
+                const y = startY + i * dy;
+
+                if (x < 0 || x >= GRID_SIZE || y < 0 || y >= GRID_SIZE) return false;
+
+                const currentCell = grid[y][x];
+                if (currentCell !== null && currentCell !== word[i]) {
+                    return false; // Conflict
+                }
+            }
+            return true;
+        }
+
+        function placeWord(grid, word, startX, startY, dx, dy) {
+            for (let i = 0; i < word.length; i++) {
+                const x = startX + i * dx;
+                const y = startY + i * dy;
+                grid[y][x] = word[i];
+            }
+        }
+
+        function fillEmptyCells(grid) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let y = 0; y < GRID_SIZE; y++) {
+                for (let x = 0; x < GRID_SIZE; x++) {
+                    if (grid[y][x] === null) {
+                        grid[y][x] = alphabet[Math.floor(Math.random() * alphabet.length)];
+                    }
+                }
+            }
+        }
+
+        // --- Rendering Functions ---
+
+        function renderGame() {
+            const gridContainer = document.getElementById('game-grid');
+            const wordListContainer = document.getElementById('word-list');
+            const themeTitle = document.getElementById('theme-title');
+            const themeDescription = document.getElementById('theme-description');
+            const winThemeName = document.getElementById('win-theme-name');
+
+
+            gridContainer.innerHTML = '';
+            wordListContainer.innerHTML = '';
+
+            themeTitle.textContent = currentThemeKey;
+            themeDescription.textContent = GAME_WORDS[currentThemeKey].theme;
+            winThemeName.textContent = currentThemeKey;
+
+
+            // Render Grid
+            for (let y = 0; y < GRID_SIZE; y++) {
+                for (let x = 0; x < GRID_SIZE; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell transition-all duration-100 ease-out';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    cell.textContent = grid[y][x];
+                    
+                    if (foundWords.has(grid[y][x])) {
+                        cell.classList.add('found');
+                    }
+                    
+                    cell.addEventListener('mousedown', handleMouseDown);
+                    cell.addEventListener('mouseenter', handleMouseEnter);
+                    gridContainer.appendChild(cell);
+                }
+            }
+
+            // Render Word List
+            wordsToFind.forEach(word => {
+                const wordItem = document.createElement('div');
+                wordItem.className = `word-item p-3 mb-2 rounded-lg text-gray-200 font-semibold text-sm cursor-pointer transition-colors duration-200 ${foundWords.has(word) ? 'word-item-found bg-gray-700' : 'bg-gray-800 hover:bg-gray-700'}`;
+                wordItem.dataset.word = word;
+                wordItem.textContent = word;
+                wordListContainer.appendChild(wordItem);
+            });
+        }
+
+        // --- Selection and Interaction Logic ---
+
+        function getCellElement(x, y) {
+            return document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        }
+
+        function handleMouseDown(e) {
+            if (foundWords.size === wordsToFind.length) return; // Game over
+            isDrawing = true;
+            startCell = { x: parseInt(e.target.dataset.x), y: parseInt(e.target.dataset.y) };
+            updateSelection(startCell.x, startCell.y);
+        }
+
+        function handleMouseEnter(e) {
+            if (isDrawing) {
+                updateSelection(parseInt(e.target.dataset.x), parseInt(e.target.dataset.y));
+            }
+        }
+
+        function updateSelection(endX, endY) {
+            // Clear previous selection
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                if (!cell.classList.contains('found')) {
+                    cell.classList.remove('selected');
+                }
+            });
+
+            selectedCells = [];
+            
+            const startX = startCell.x;
+            const startY = startCell.y;
+            
+            // Calculate displacement
+            const dx = endX - startX;
+            const dy = endY - startY;
+            
+            // Determine direction (must be horizontal or vertical for this version)
+            let stepX = 0;
+            let stepY = 0;
+            const absDx = Math.abs(dx);
+            const absDy = Math.abs(dy);
+
+            // Allow only H and V
+            if (absDx === 0 && absDy > 0) { // Vertical
+                stepY = dy / absDy;
+            } else if (absDy === 0 && absDx > 0) { // Horizontal
+                stepX = dx / absDx;
+            } else if (absDx === 0 && absDy === 0) { // Single cell
+                stepX = 0;
+                stepY = 0;
+            } else {
+                // Not a valid line selection (diagonal/L-shape). Only select the start cell.
+                const cell = getCellElement(startX, startY);
+                if (cell) {
+                    cell.classList.add('selected');
+                    selectedCells.push(cell);
+                }
+                return;
+            }
+            
+            const steps = Math.max(absDx, absDy) + 1;
+
+            for (let i = 0; i < steps; i++) {
+                const x = startX + i * stepX;
+                const y = startY + i * stepY;
+                const cell = getCellElement(x, y);
+                if (cell && !cell.classList.contains('found')) {
+                    cell.classList.add('selected');
+                    selectedCells.push(cell);
+                }
+            }
+        }
+
+        function handleMouseUp() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            
+            const selectedWord = selectedCells.map(cell => cell.textContent).join('');
+
+            // Check if selectedWord (or its reverse) is in the word list
+            const reversedWord = selectedWord.split('').reverse().join('');
+            
+            const targetWords = wordsToFind.filter(w => !foundWords.has(w));
+            let foundMatch = null;
+
+            for (const word of targetWords) {
+                if (word === selectedWord || word === reversedWord) {
+                    foundMatch = word;
+                    break;
+                }
+            }
+
+            if (foundMatch) {
+                markWordFound(foundMatch);
+            } else {
+                // Clear selection if no match
+                document.querySelectorAll('.grid-cell.selected').forEach(cell => {
+                    cell.classList.remove('selected');
+                });
+            }
+        }
+
+        function markWordFound(word) {
+            foundWords.add(word);
+            
+            // 1. Highlight cells as found
+            selectedCells.forEach(cell => {
+                cell.classList.remove('selected');
+                cell.classList.add('found');
+            });
+            
+            // 2. Mark word in the list as found
+            const listItem = document.querySelector(`.word-item[data-word="${word}"]`);
+            if (listItem) {
+                listItem.classList.add('word-item-found');
+                listItem.classList.remove('bg-gray-800', 'hover:bg-gray-700');
+                listItem.classList.add('bg-gray-700');
+            }
+            
+            // 3. Check for game win
+            if (foundWords.size === wordsToFind.length) {
+                showWinMessage();
+            }
+        }
+
+        function showWinMessage() {
+            const modal = document.getElementById('win-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('win-modal').classList.add('hidden');
+        }
+        
+        // --- Event Listeners and Initial Load ---
+        
+        window.onload = () => {
+            // Add global mouse up listener to stop drawing anywhere
+            document.addEventListener('mouseup', handleMouseUp);
+            
+            // Add listeners to theme buttons
+            document.querySelectorAll('[data-theme]').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const theme = e.currentTarget.dataset.theme;
+                    initGame(theme);
+                    document.getElementById('win-modal').classList.add('hidden');
+                });
+            });
+
+            // Start the first game
+            initGame("Torah Names & Places");
+        };
+
+    </script>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-extrabold text-white tracking-wider">BIBLE WORD WEAVER</h1>
+            <div class="space-x-4">
+                <button class="text-gray-400 hover:text-white transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.79 4 4s-1.79 4-4 4c-1.742 0-3.223-.835-3.772-2m0 0a2 2 0 11-4 0 2 2 0 014 0zm10 0a2 2 0 11-4 0 2 2 0 014 0zm-8.228-2h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+                <button class="text-gray-400 hover:text-white transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg></button>
+            </div>
+        </header>
+
+        <!-- Main Content Layout - Uses single column on small screens (default) and two columns on large screens (lg:grid-cols-3) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Theme and Grid -->
+            <div class="lg:col-span-2">
+                <!-- Theme Card -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-2xl mb-8">
+                    <h2 id="theme-title" class="text-xl md:text-2xl font-bold text-green-400 mb-2">Torah Names & Places</h2>
+                    <p id="theme-description" class="text-gray-300 text-sm">Find the key figures and places from the books of the Torah (Genesis, Exodus, Leviticus, Numbers, Deuteronomy).</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-full transition-colors" data-theme="Torah Names & Places">Torah</button>
+                        <button class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-full transition-colors" data-theme="New Testament Books">New Testament</button>
+                        <button class="px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-full transition-colors" data-theme="Prominent Women">Women</button>
+                    </div>
+                </div>
+
+                <!-- Game Grid -->
+                <!-- The max-w-full and grid structure ensures it scales fluidly on mobile. -->
+                <div id="game-grid" class="bg-black p-4 rounded-xl shadow-2xl grid max-w-full overflow-hidden mx-auto">
+                    <!-- Grid cells will be injected here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Right Column: Words to Find -->
+            <div class="lg:col-span-1">
+                <div class="bg-gray-900 p-4 rounded-xl shadow-2xl">
+                    <h2 class="text-lg font-bold text-white mb-4">WORDS TO FIND</h2>
+                    <div id="word-list" class="max-h-96 overflow-y-auto">
+                        <!-- Word list items will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win Modal (Hidden by Default) -->
+        <div id="win-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center hidden">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border-t-4 border-green-500 transform transition-all">
+                <div class="text-5xl mb-4" role="img" aria-label="Celebration emoji">🎉</div>
+                <h3 class="text-2xl font-bold text-white mb-3">Congratulations!</h3>
+                <p class="text-gray-300 mb-6">You have found all the words in the <span id="win-theme-name" class="font-semibold text-green-400">Torah Names & Places</span> puzzle.</p>
+                <button onclick="closeModal()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg">Play Another Theme</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
