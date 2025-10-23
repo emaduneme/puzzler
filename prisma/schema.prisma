@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  progress      UserProgress[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Deck {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String?
+  category    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  questions   Question[]
+
+  @@map("decks")
+}
+
+model Question {
+  id           String         @id @default(cuid())
+  deck         Deck           @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  deckId       String
+  frontText    String
+  backText     String
+  scriptureRefs Json?         // JSON array of scripture references
+  difficulty   Int            @default(1) // 1-5 scale
+  createdBy    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userProgress UserProgress[]
+
+  @@index([deckId])
+  @@map("questions")
+}
+
+model UserProgress {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId     String
+  lastReviewed   DateTime @default(now())
+  intervalDays   Int      @default(1)
+  easeFactor     Float    @default(2.5)
+  repetition     Int      @default(0)
+  nextReviewAt   DateTime @default(now())
+  correctCount   Int      @default(0)
+  incorrectCount Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([userId, questionId])
+  @@index([userId, nextReviewAt])
+  @@map("user_progress")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
