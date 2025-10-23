@@ -63,17 +63,11 @@ pnpm install
 
 3. **Set up environment variables**
 
-Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your configuration:
+Create a `.env` file in the project root with the following (safe defaults for local dev):
 
 ```env
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/knowingapp?schema=public"
+DATABASE_URL="postgresql://knowing:knowing@localhost:5432/knowingapp?schema=public"
 
 # NextAuth
 NEXTAUTH_URL="http://localhost:3000"
@@ -90,7 +84,23 @@ JWT_REFRESH_SECRET="your-jwt-refresh-secret-key"
 openssl rand -base64 32
 ```
 
-4. **Set up the database**
+4. **Start PostgreSQL with Docker (recommended for local dev)**
+
+If you have Docker Desktop installed, start a local Postgres container:
+
+```bash
+docker run -d --name knowingapp-db \
+  -e POSTGRES_USER=knowing \
+  -e POSTGRES_PASSWORD=knowing \
+  -e POSTGRES_DB=knowingapp \
+  -p 5432:5432 \
+  -v knowingapp_pgdata:/var/lib/postgresql/data \
+  postgres:15-alpine
+```
+
+Wait a few seconds for the DB to be ready.
+
+5. **Set up the database schema and seed data**
 
 ```bash
 # Generate Prisma client
@@ -99,11 +109,11 @@ npm run db:generate
 # Push schema to database
 npm run db:push
 
-# Seed the database with 100 Bible questions
+# Seed the database with 100+ Bible questions
 npm run db:seed
 ```
 
-5. **Start the development server**
+6. **Start the development server**
 
 ```bash
 npm run dev

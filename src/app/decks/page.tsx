@@ -1,3 +1,5 @@
+ 'use client'
+
 import DeckList from '@/components/DeckList'
 import Link from 'next/link'
 
