@@ -1,0 +1,117 @@
+deck_slug,deck_name,deck_category,front_text,back_text,scripture_refs,difficulty
+pentateuch,Pentateuch,Old Testament,"Who led the Israelites out of Egypt?","Moses (Exodus 3–14)","Exodus 3:10|Exodus 14:21-31",1
+pentateuch,Pentateuch,Old Testament,"Which patriarch had twelve sons who became the tribes of Israel?","Jacob (also called Israel)","Genesis 35:22-26",1
+pentateuch,Pentateuch,Old Testament,"Who received the Ten Commandments on Mount Sinai?","Moses","Exodus 20:1-17",1
+pentateuch,Pentateuch,Old Testament,"Who interpreted Pharaoh's dreams about seven fat and seven lean cows?","Joseph","Genesis 41:1-36",2
+pentateuch,Pentateuch,Old Testament,"Where was Abraham called to go by God?","Canaan (the Promised Land)","Genesis 12:1-7",1
+pentateuch,Pentateuch,Old Testament,"What were the first words God spoke in creation?","Let there be light","Genesis 1:3",1
+pentateuch,Pentateuch,Old Testament,"Who was the first man created by God?","Adam","Genesis 2:7",1
+pentateuch,Pentateuch,Old Testament,"What did God create on the seventh day?","Nothing; He rested","Genesis 2:2-3",1
+pentateuch,Pentateuch,Old Testament,"Who built the ark to survive the flood?","Noah","Genesis 6:13-22",1
+pentateuch,Pentateuch,Old Testament,"What sign did God give Noah after the flood?","A rainbow","Genesis 9:12-17",1
+pentateuch,Pentateuch,Old Testament,"Who was Abraham's nephew who escaped Sodom?","Lot","Genesis 19:1-29",2
+pentateuch,Pentateuch,Old Testament,"What did Jacob see in his dream at Bethel?","A ladder (or stairway) reaching to heaven with angels","Genesis 28:10-17",2
+pentateuch,Pentateuch,Old Testament,"What did God change Jacob's name to?","Israel","Genesis 32:28",1
+pentateuch,Pentateuch,Old Testament,"Which son did Joseph's brothers sell into slavery?","Joseph himself","Genesis 37:12-28",1
+pentateuch,Pentateuch,Old Testament,"What were the final plagues before Pharaoh released the Israelites?","Death of the firstborn","Exodus 11-12",2
+historical,Historical Books,Old Testament,"Who became king of Israel after Saul?","David","1 Samuel 16:13",1
+historical,Historical Books,Old Testament,"Which king built the first temple in Jerusalem?","Solomon","1 Kings 6:1-38",1
+historical,Historical Books,Old Testament,"Who was the judge known for his great strength?","Samson","Judges 13-16",1
+historical,Historical Books,Old Testament,"Which woman became a judge and prophetess in Israel?","Deborah","Judges 4-5",2
+historical,Historical Books,Old Testament,"Who killed Goliath the Philistine giant?","David","1 Samuel 17",1
+historical,Historical Books,Old Testament,"Which king had 700 wives and 300 concubines?","Solomon","1 Kings 11:3",2
+historical,Historical Books,Old Testament,"Who succeeded Moses as leader of Israel?","Joshua","Joshua 1:1-9",1
+historical,Historical Books,Old Testament,"What city's walls fell after the Israelites marched around them?","Jericho","Joshua 6:1-20",1
+historical,Historical Books,Old Testament,"Who was Ruth's mother-in-law?","Naomi","Ruth 1:1-5",1
+historical,Historical Books,Old Testament,"Which prophet anointed David as king?","Samuel","1 Samuel 16:13",2
+historical,Historical Books,Old Testament,"Who was the first king of Israel?","Saul","1 Samuel 10:1",1
+historical,Historical Books,Old Testament,"Which king divided Israel into two kingdoms?","Rehoboam (Solomon's son)","1 Kings 12:1-24",3
+historical,Historical Books,Old Testament,"Who was taken up to heaven in a chariot of fire?","Elijah","2 Kings 2:11",2
+historical,Historical Books,Old Testament,"Which king of Judah destroyed idols and restored temple worship?","Josiah","2 Kings 22-23",3
+historical,Historical Books,Old Testament,"Who rebuilt the walls of Jerusalem after the exile?","Nehemiah","Nehemiah 2-6",2
+poetry,Poetry & Wisdom,Old Testament,"Who wrote most of the book of Proverbs?","Solomon","Proverbs 1:1",1
+poetry,Poetry & Wisdom,Old Testament,"Which book is a collection of songs and prayers?","Psalms","",1
+poetry,Poetry & Wisdom,Old Testament,"Who lost everything but remained faithful to God?","Job","Job 1-2",1
+poetry,Poetry & Wisdom,Old Testament,"What does Ecclesiastes say is meaningless?","Everything (vanity)","Ecclesiastes 1:2",2
+poetry,Poetry & Wisdom,Old Testament,"Which Psalm begins 'The Lord is my shepherd'?","Psalm 23","Psalm 23:1",1
+poetry,Poetry & Wisdom,Old Testament,"Who wrote 'To everything there is a season'?","The Teacher/Preacher in Ecclesiastes","Ecclesiastes 3:1",2
+poetry,Poetry & Wisdom,Old Testament,"Which poetic book is a love song between bride and groom?","Song of Solomon (Song of Songs)","",2
+poetry,Poetry & Wisdom,Old Testament,"What is the fear of the Lord according to Proverbs?","The beginning of wisdom","Proverbs 9:10",2
+poetry,Poetry & Wisdom,Old Testament,"Who said 'Create in me a clean heart, O God'?","David in Psalm 51","Psalm 51:10",2
+poetry,Poetry & Wisdom,Old Testament,"Which Psalm is the longest chapter in the Bible?","Psalm 119","",2
+major-prophets,Major Prophets,Old Testament,"Which prophet was called as a youth and said 'Here I am, send me'?","Isaiah","Isaiah 6:8",2
+major-prophets,Major Prophets,Old Testament,"Who prophesied about the valley of dry bones?","Ezekiel","Ezekiel 37:1-14",2
+major-prophets,Major Prophets,Old Testament,"Which prophet was thrown into a den of lions?","Daniel","Daniel 6",1
+major-prophets,Major Prophets,Old Testament,"Who was known as the weeping prophet?","Jeremiah","",2
+major-prophets,Major Prophets,Old Testament,"Which prophet foretold a virgin would conceive?","Isaiah","Isaiah 7:14",2
+major-prophets,Major Prophets,Old Testament,"Who had a vision of God's throne with cherubim?","Ezekiel","Ezekiel 1",3
+major-prophets,Major Prophets,Old Testament,"Which prophet wrote 'They shall beat their swords into plowshares'?","Isaiah (also Micah)","Isaiah 2:4",3
+major-prophets,Major Prophets,Old Testament,"Who was told to buy a field as a sign of future restoration?","Jeremiah","Jeremiah 32:6-15",3
+major-prophets,Major Prophets,Old Testament,"Which prophet interpreted King Nebuchadnezzar's dream?","Daniel","Daniel 2",2
+major-prophets,Major Prophets,Old Testament,"Who prophesied about the New Covenant?","Jeremiah","Jeremiah 31:31-34",3
+minor-prophets,Minor Prophets,Old Testament,"Which prophet was swallowed by a great fish?","Jonah","Jonah 1:17",1
+minor-prophets,Minor Prophets,Old Testament,"Who prophesied about a locust plague and the Day of the Lord?","Joel","Joel 1-2",2
+minor-prophets,Minor Prophets,Old Testament,"Which prophet was a shepherd from Tekoa?","Amos","Amos 1:1",2
+minor-prophets,Minor Prophets,Old Testament,"Who prophesied the Messiah would be born in Bethlehem?","Micah","Micah 5:2",2
+minor-prophets,Minor Prophets,Old Testament,"Which prophet married an unfaithful wife as a symbol of Israel's unfaithfulness?","Hosea","Hosea 1:2",3
+minor-prophets,Minor Prophets,Old Testament,"Who prophesied about Edom's destruction?","Obadiah","Obadiah 1",3
+minor-prophets,Minor Prophets,Old Testament,"Which prophet questioned God's justice?","Habakkuk","Habakkuk 1:2-4",3
+minor-prophets,Minor Prophets,Old Testament,"Who prophesied during the rebuilding of the temple?","Haggai","Haggai 1:1",3
+minor-prophets,Minor Prophets,Old Testament,"Which prophet had visions of lampstands and olive trees?","Zechariah","Zechariah 4",3
+minor-prophets,Minor Prophets,Old Testament,"Who was the last prophet of the Old Testament?","Malachi","",2
+gospels,Gospels,New Testament,"Who baptized Jesus in the Jordan River?","John the Baptist","Matthew 3:13-17",1
+gospels,Gospels,New Testament,"Which gospel begins with the genealogy of Jesus?","Matthew","Matthew 1:1-17",1
+gospels,Gospels,New Testament,"Who walked on water with Jesus?","Peter","Matthew 14:22-33",1
+gospels,Gospels,New Testament,"Which sermon contains the Beatitudes?","The Sermon on the Mount","Matthew 5-7",1
+gospels,Gospels,New Testament,"Who betrayed Jesus with a kiss?","Judas Iscariot","Matthew 26:47-50",1
+gospels,Gospels,New Testament,"Which disciple denied Jesus three times?","Peter","Luke 22:54-62",1
+gospels,Gospels,New Testament,"Who was the tax collector Jesus called to follow Him?","Matthew (also called Levi)","Matthew 9:9",2
+gospels,Gospels,New Testament,"Which gospel is written by a physician?","Luke","Colossians 4:14",2
+gospels,Gospels,New Testament,"Who helped Jesus carry His cross?","Simon of Cyrene","Matthew 27:32",2
+gospels,Gospels,New Testament,"Which gospel begins with 'In the beginning was the Word'?","John","John 1:1",1
+gospels,Gospels,New Testament,"Who came to Jesus at night seeking truth?","Nicodemus","John 3:1-21",2
+gospels,Gospels,New Testament,"Which parable features a son who wastes his inheritance?","The Prodigal Son","Luke 15:11-32",1
+gospels,Gospels,New Testament,"Who anointed Jesus' feet with expensive perfume?","Mary (sister of Martha and Lazarus)","John 12:1-8",2
+gospels,Gospels,New Testament,"Which disciple doubted Jesus' resurrection until he saw Him?","Thomas","John 20:24-29",1
+gospels,Gospels,New Testament,"Who was the first person to see Jesus after His resurrection?","Mary Magdalene","John 20:11-18",2
+gospels,Gospels,New Testament,"What was Jesus' first miracle?","Turning water into wine at Cana","John 2:1-11",1
+gospels,Gospels,New Testament,"How many loaves and fishes did Jesus use to feed 5000?","Five loaves and two fish","Matthew 14:13-21",1
+gospels,Gospels,New Testament,"Who said Jesus must increase but he must decrease?","John the Baptist","John 3:30",2
+gospels,Gospels,New Testament,"Which disciple was called 'the rock'?","Peter (Cephas)","Matthew 16:18",1
+gospels,Gospels,New Testament,"Who climbed a tree to see Jesus?","Zacchaeus","Luke 19:1-10",2
+acts,Acts,New Testament,"Who preached at Pentecost?","Peter","Acts 2:14-41",1
+acts,Acts,New Testament,"Who was the first Christian martyr?","Stephen","Acts 7:54-60",1
+acts,Acts,New Testament,"What was Saul's name changed to after his conversion?","Paul","Acts 13:9",1
+acts,Acts,New Testament,"Who was Paul's companion on his first missionary journey?","Barnabas","Acts 13:2-3",2
+acts,Acts,New Testament,"Which Ethiopian official was baptized by Philip?","The Ethiopian eunuch","Acts 8:26-39",2
+acts,Acts,New Testament,"Who fell from a window during Paul's long sermon?","Eutychus","Acts 20:7-12",3
+acts,Acts,New Testament,"Which couple lied about their offering and died?","Ananias and Sapphira","Acts 5:1-11",2
+acts,Acts,New Testament,"Who had a vision of a sheet with unclean animals?","Peter","Acts 10:9-16",2
+acts,Acts,New Testament,"In what city were believers first called Christians?","Antioch","Acts 11:26",3
+acts,Acts,New Testament,"Who was Paul's young companion and protégé?","Timothy","Acts 16:1-3",2
+pauline,Pauline Epistles,New Testament,"Which letter emphasizes justification by faith alone?","Romans","Romans 3:28",1
+pauline,Pauline Epistles,New Testament,"To which city did Paul write about the love chapter (1 Cor 13)?","Corinth","1 Corinthians 13",1
+pauline,Pauline Epistles,New Testament,"Which letter was written to Philemon?","Philemon (shortest Pauline epistle)","",2
+pauline,Pauline Epistles,New Testament,"Which letter contains the fruit of the Spirit?","Galatians","Galatians 5:22-23",1
+pauline,Pauline Epistles,New Testament,"Which letter says 'For to me to live is Christ'?","Philippians","Philippians 1:21",2
+pauline,Pauline Epistles,New Testament,"Which letter contains the armor of God passage?","Ephesians","Ephesians 6:10-18",1
+pauline,Pauline Epistles,New Testament,"Which letter warns against false teachers and the 'super-apostles'?","2 Corinthians","2 Corinthians 11:5",3
+pauline,Pauline Epistles,New Testament,"Which letter says 'whatever you do, work heartily, as for the Lord'?","Colossians","Colossians 3:23",2
+pauline,Pauline Epistles,New Testament,"Which letters are called the Pastoral Epistles?","1 Timothy, 2 Timothy, and Titus","",2
+pauline,Pauline Epistles,New Testament,"Which letter was likely written from prison in Rome?","Philippians (also Ephesians, Colossians, Philemon)","",3
+general-epistles,General Epistles,New Testament,"Who wrote the letter emphasizing faith without works is dead?","James","James 2:26",1
+general-epistles,General Epistles,New Testament,"Who wrote about being 'born again to a living hope'?","Peter (1 Peter)","1 Peter 1:3",2
+general-epistles,General Epistles,New Testament,"Which epistle says 'God is love'?","1 John","1 John 4:8",1
+general-epistles,General Epistles,New Testament,"Who warned about false teachers in the last days?","Jude","Jude 1:3-4",2
+general-epistles,General Epistles,New Testament,"Which letter addresses 'the elect lady and her children'?","2 John","2 John 1:1",3
+general-epistles,General Epistles,New Testament,"Who wrote to Gaius commending his hospitality?","John (3 John)","3 John 1:1",3
+general-epistles,General Epistles,New Testament,"Which letter says 'faith is the substance of things hoped for'?","Hebrews","Hebrews 11:1",1
+general-epistles,General Epistles,New Testament,"Who is called a brother of Jesus in one epistle?","James","James 1:1|Matthew 13:55",2
+revelation,Revelation,New Testament,"Who wrote the book of Revelation?","John (the apostle)","Revelation 1:1",1
+revelation,Revelation,New Testament,"How many churches received letters in Revelation?","Seven","Revelation 2-3",1
+revelation,Revelation,New Testament,"What number is associated with completeness in Revelation?","Seven","",1
+revelation,Revelation,New Testament,"What is the number of the beast?","666","Revelation 13:18",1
+revelation,Revelation,New Testament,"How many seals are on the scroll?","Seven","Revelation 5:1",2
+revelation,Revelation,New Testament,"What are the four living creatures around God's throne?","Lion, ox, man, and eagle","Revelation 4:6-8",3
+revelation,Revelation,New Testament,"What is the name of the final battle?","Armageddon","Revelation 16:16",2
+revelation,Revelation,New Testament,"What will God wipe away in the new heaven and earth?","Every tear; death, mourning, crying, pain","Revelation 21:4",1
